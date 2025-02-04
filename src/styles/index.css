@@ -1,11 +1,72 @@
-/* 
+.todo-list{
+    border: 1px grey;
+    background: grey;
+    width: 50%;
+    margin: auto;
+    margin-top: 20px;
+    height: 500px;
+    position: relative;
+}
+.todoInput {
+    background: white;
+    width: 450px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: auto;
+    padding-left: 20px;
+}
+p{
+    width: 90%;
+    
+}
+.close{
+    padding: 0px;
+    border: none;
+    float: right;
+    color: transparent;
+    background-color: grey;
+}
+p,.close:hover{
+    color: black;
+}
+input[type="text"] {
+    width: 85%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    padding-left: 30px;
+    text-align: center;
+     
+  
+}
+input{
+    padding-left: 60px;
+    width: 50%;
+}
+.taskUl li {
+    width: 80%;
+    background: whitesmoke;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+}
+.addButton{
+    background-color: blue;
+    padding: 10px;
+    margin-left: 5px;
 
-    You can write your own styles here...
-    
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
-
-*/
+}
+.todoFooter{
+    text-align: left;
+    height: 5px;
+    border-top: 1px solid gray;
+    font-size: small;
+    font-weight:lighter;
+    color: lightgray;
+}

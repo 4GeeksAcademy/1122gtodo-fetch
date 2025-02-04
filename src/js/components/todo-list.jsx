@@ -1,15 +1,16 @@
 
 import React, {useEffect, useState} from "react";
-import Fetching from "./fetching ";
 
 function Todo(){
     const [taskList, setTaskList ] = useState(["clean room", "Eat Breakfast"]);
     const [newTask, setNewTask] = useState('')
     const [footer, setFooter] = useState()
     const taskLeft = taskList.length
-
-    function addTask() {
-    if (!newTask.trim()) return;
+    function add() {
+        if (newTask.trim() === "") {
+            alert("Please add a task");
+            return;
+        }
 
     const taskObject = {
         label: newTask,
@@ -17,7 +18,7 @@ function Todo(){
     };
 
     // Send task to API
-    fetch(URL+"todos/"+ username), {
+    fetch(`https://playground.4geeks.com/todo/${userName}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -35,10 +36,10 @@ function Todo(){
         setNewTask("");  // Clear input field
     })
     .catch(error => console.error("Error adding task:", error));
-}
+git
+        setTaskList([...taskList, newTask]);
+        setNewTask(""); 
     }
-
-
     function deleted (index){
          setTaskList(taskList.filter((_,i)=> i!==index))
     }

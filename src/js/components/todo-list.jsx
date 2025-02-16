@@ -6,50 +6,76 @@ function Todo(){
     const [newTask, setNewTask] = useState('')
     const [footer, setFooter] = useState()
     const taskLeft = taskList.length
+
     function add() {
-        if (newTask.trim() === "") {
-            alert("Please add a task");
-            return;
-        }
+    if (newTask.trim() === "") {
+        alert("Please add a task");
+        return;
+    }
 
     const taskObject = {
         label: newTask,
-        done: false,  // assuming a new task is incomplete by default
+        done: false, 
     };
 
-    // Send task to API
-    fetch(`https://playground.4geeks.com/todo/${userName}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(taskObject),
+    // Fetch the existing tasks first
+    fetch(`https://playground.4geeks.com/todo/${userName}`)
+    .then(response => response.json())
+    .then(existingTasks => {
+        if (!Array.isArray(existingTasks)) existingTasks = [];
+
+        // Add the new task to the list
+        const updatedTasks = [...existingTasks, taskObject];
+
+        // Send the updated list back to the API using PUT
+        return fetch(`https://playground.4geeks.com/todo/${userName}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedTasks),
+        });
     })
     .then(response => {
-        if (!response.ok) {
-            throw new Error("Failed to add task");
-        }
+        if (!response.ok) throw new Error("Failed to update tasks");
         return response.json();
     })
     .then(() => {
-        setTaskList([...taskList, newTask]); // Update local state
-        setNewTask("");  // Clear input field
+        // Fetch the updated task list and update state
+        return fetch(`https://playground.4geeks.com/todo/${userName}`);
+    })
+    .then(response => response.json())
+    .then(updatedTasks => {
+        setTaskList(updatedTasks); // Update the state with the new list
+        setNewTask(""); // Clear the input field
     })
     .catch(error => console.error("Error adding task:", error));
-git
-        setTaskList([...taskList, newTask]);
-        setNewTask(""); 
+};
+
     }
     function deleted (index){
          setTaskList(taskList.filter((_,i)=> i!==index))
     }
-    useEffect(()=>{setFooter(`${taskLeft} task left`)},[taskList])
+    function deleteAllTasks() {
+        fetch(`https://playground.4geeks.com/users/${userName}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+        })
+        .then(response => {
+            if (!response.ok) throw new Error("Failed to delete tasks");
+            return response.json();
+        })
+        .then(() => {
+            setTaskList([]);
+            alert("All tasks deleted successfully!");
+        })
+        .catch(error => console.error("Error deleting tasks:", error));
+    }
+    
       
 
     return( 
         <div className="todoInput">
             <input type="text" onChange={e => setNewTask(e.target.value)} value={newTask}  placeholder="What needs to be done"/>
-            <button className="btn addButton" onClick={add}>Add</button>
+            <button className="btn addButton" onClick={add}>Add</button> 
             
             <div className="taskToDo">
                 <ul className="taskUl">
@@ -62,12 +88,12 @@ git
                 </ul>
             </div>
             <div className="todoFooter">
-              <p>{footer}</p>
+              <p>{taskLeft} task{taskLeft !==1? "s": " "} left</p> <button onClick={()=>deleteAllTasks()}>delete all</button>
             </div>
         </div>
         
     )
 
     
-}
+
 export default Todo

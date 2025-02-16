@@ -13,7 +13,9 @@ useEffect(() => {
 // 1. create the new user in the server using a POST method
 const createUser = async () => {
   try{
-    const response = await fetch(URL + "users/" + userName, {method: "POST"});
+    const response = await fetch(URL + "users/" + userName, {method: "POST"
+      
+    });
     if (!response.ok) {
       if (response.status == 400) {
         console.log("User already exists")
@@ -39,6 +41,9 @@ const getTodos = async () => {
         console.error("No task found", error);
     }
 };
+ const addTodos = async () => {
+  const response = await fetch(URL + "", {method:"PUT"})
+ }
 
 // const getTodos = async () => {
 //     await fetch(URL + "todo/" + userName)
